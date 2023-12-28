@@ -31,6 +31,7 @@ type MailConfig struct {
 	TLS            bool           `yaml:"tls" envconfig:"EMAIL_TLS"` // Deprecated, use MailConfig.Encryption instead.
 	Encryption     MailEncryption `yaml:"encryption" envconfig:"EMAIL_ENCRYPTION"`
 	CertValidation bool           `yaml:"certcheck" envconfig:"EMAIL_CERT_VALIDATION"`
+	Helo           string         `yaml:"helo" envconfig:"EMAIL_HELO"`
 	Username       string         `yaml:"user" envconfig:"EMAIL_USERNAME"`
 	Password       string         `yaml:"pass" envconfig:"EMAIL_PASSWORD"`
 	AuthType       MailAuthType   `yaml:"auth" envconfig:"EMAIL_AUTHTYPE"`
@@ -51,6 +52,7 @@ func SendEmailWithAttachments(cfg MailConfig, sender, replyTo, subject, body, ht
 	srv.SendTimeout = 30 * time.Second
 	srv.Host = cfg.Host
 	srv.Port = cfg.Port
+	srv.Helo = cfg.Helo
 	srv.Username = cfg.Username
 	srv.Password = cfg.Password
 
